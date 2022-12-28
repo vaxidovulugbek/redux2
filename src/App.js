@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import { connect } from 'react-redux';
 import './App.css';
+import { setTitle , setCount} from './store';
 
-function App() {
+function App(props) {
+  const funcHendler = (type) => {
+    props.setTitle(type)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h1>{props.title}</h1>
+        <button onClick={() => funcHendler("SET_TITLE")}>Click me</button>
+        <button onClick={() => funcHendler("SET_COUNT")}>set Count</button>
+        <input type="text" placeholder='input ' onChange={(e) => funcHendler({type:"SET_INPUT", value:e.target.value})} />
     </div>
   );
 }
 
-export default App;
+const stateToProps = (state) => {
+  return {
+    title:state.title
+  }
+}
+
+export default connect(stateToProps, {setTitle})(App)
+
